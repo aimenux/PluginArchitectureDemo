@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
-      <Exec Command="xcopy /Y $(TargetDir)$(TargetName).dll $(SolutionDir)files" />
+      <Exec Command="copy /Y $(TargetDir)$(TargetName).dll $(SolutionDir)files" />
     </Target>
 
 </Project>
