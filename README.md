@@ -1,10 +1,7 @@
 [![.NET](https://github.com/aimenux/PluginArchitectureDemo/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aimenux/PluginArchitectureDemo/actions/workflows/ci.yml)
 
 # PluginArchitectureDemo
-```  
-Using various ways to illustrate plugin architecture  
-```  
-
+``` Using various ways to illustrate plugin architecture ```
 > In this demo, i m using various ways in order to illustrate the use of plugin architecture.
 >
 > :one: `Example01` use [default ioc](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection) and some reflection in order to load plugins
