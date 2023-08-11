@@ -13,7 +13,9 @@ Using various ways to illustrate plugin architecture
 >
 > :three: `Example03` use [autofac](https://github.com/autofac/Autofac) in order to load plugins
 >
+> :four: `Example04` use [simple injector](https://github.com/simpleinjector/SimpleInjector) in order to load plugins
+>
 > :bulb: Plugins are copied on `plugins` folder on post build events and loaded at startup by the application.
 >
 
-**`Tools`** : vs22, net 6.0, autofac, scrutor
+**`Tools`** : vs22, net 6.0, autofac, simple-injector, scrutor
