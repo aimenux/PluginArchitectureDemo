@@ -6,7 +6,7 @@ namespace Example02.App;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddApplicationDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         var settings = GetSettings(configuration);
         var assemblies = Directory.EnumerateFiles(settings.PluginsPath, settings.PluginsPattern)

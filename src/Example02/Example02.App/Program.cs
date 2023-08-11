@@ -9,7 +9,7 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var serviceProvider = new ServiceCollection()
-    .AddApplicationDependencies(configuration)
+    .AddServices(configuration)
     .BuildServiceProvider();
 
 var user = new User();
