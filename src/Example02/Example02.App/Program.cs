@@ -8,8 +8,13 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
+var settings = configuration
+    .GetSection(Settings.SectionName)
+    .Get<Settings>()
+    .ValidateAndThrow();
+
 var serviceProvider = new ServiceCollection()
-    .AddServices(configuration)
+    .AddServices(settings)
     .BuildServiceProvider();
 
 var user = new User();

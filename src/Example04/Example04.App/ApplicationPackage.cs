@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Example04.Core;
-using Microsoft.Extensions.Configuration;
 using SimpleInjector;
 using SimpleInjector.Packaging;
 
@@ -8,40 +7,19 @@ namespace Example04.App;
 
 public class ApplicationPackage : IPackage
 {
-    private readonly IConfiguration _configuration;
+    private readonly Settings _settings;
 
-    public ApplicationPackage(IConfiguration configuration)
+    public ApplicationPackage(Settings settings)
     {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _settings = settings ?? throw new ArgumentNullException(nameof(settings));
     }
     
     public void RegisterServices(Container container)
     {
-        var settings = GetSettings();
-        var assemblies = Directory.EnumerateFiles(settings.PluginsPath, settings.PluginsPattern)
+        var assemblies = Directory.EnumerateFiles(_settings.PluginsPath, _settings.PluginsPattern)
             .Select(Assembly.LoadFrom)
             .ToList();
-        container.Collection.Register<INotificationService>(assemblies);
-    }
-    
-    private Settings GetSettings()
-    {
-        var path = _configuration.GetValue<string>("Settings:PluginsPath");
-        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
-        {
-            throw new ArgumentException($"Path '{path}' is not valid.");
-        }
         
-        var pattern = _configuration.GetValue<string>("Settings:PluginsPattern");
-        if (string.IsNullOrWhiteSpace(pattern))
-        {
-            throw new ArgumentException($"Pattern '{pattern}' is not valid.");
-        }
-
-        return new Settings
-        {
-            PluginsPath = path,
-            PluginsPattern = pattern
-        };
+        container.Collection.Register<INotificationService>(assemblies);
     }
 }

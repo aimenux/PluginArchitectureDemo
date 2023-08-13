@@ -1,24 +1,23 @@
 ﻿using System.Reflection;
 using Autofac;
-using Microsoft.Extensions.Configuration;
 
 namespace Example03.App;
 
 public class ApplicationModule : Autofac.Module
 {
-    private readonly IConfiguration _configuration;
+    private readonly Settings _settings;
 
-    public ApplicationModule(IConfiguration configuration)
+    public ApplicationModule(Settings settings)
     {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _settings = settings ?? throw new ArgumentNullException(nameof(settings));
     }
     
     protected override void Load(ContainerBuilder builder)
     {
-        var settings = GetSettings();
-        var assemblies = Directory.EnumerateFiles(settings.PluginsPath, settings.PluginsPattern)
+        var assemblies = Directory.EnumerateFiles(_settings.PluginsPath, _settings.PluginsPattern)
             .Select(Assembly.LoadFrom)
             .ToList();
+        
         foreach (var assembly in assemblies)
         {
             builder
@@ -26,26 +25,5 @@ public class ApplicationModule : Autofac.Module
                 .AsImplementedInterfaces()
                 .SingleInstance();
         }
-    }
-    
-    private Settings GetSettings()
-    {
-        var path = _configuration.GetValue<string>("Settings:PluginsPath");
-        if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
-        {
-            throw new ArgumentException($"Path '{path}' is not valid.");
-        }
-        
-        var pattern = _configuration.GetValue<string>("Settings:PluginsPattern");
-        if (string.IsNullOrWhiteSpace(pattern))
-        {
-            throw new ArgumentException($"Pattern '{pattern}' is not valid.");
-        }
-
-        return new Settings
-        {
-            PluginsPath = path,
-            PluginsPattern = pattern
-        };
     }
 }

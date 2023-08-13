@@ -8,8 +8,13 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
+var settings = configuration
+    .GetSection(Settings.SectionName)
+    .Get<Settings>()
+    .ValidateAndThrow();
+
 var containerBuilder = new ContainerBuilder();
-containerBuilder.RegisterModule(new ApplicationModule(configuration));
+containerBuilder.RegisterModule(new ApplicationModule(settings));
 var container = containerBuilder.Build();
 
 var user = new User();

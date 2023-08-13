@@ -1,19 +1,20 @@
 ﻿using Example04.App;
 using Example04.Core;
 using Microsoft.Extensions.Configuration;
-using SimpleInjector;
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-var container = new Container
-{
-    Options = { EnableAutoVerification = true }
-};
+var settings = configuration
+    .GetSection(Settings.SectionName)
+    .Get<Settings>()
+    .ValidateAndThrow();
 
-container.RegisterApplicationPackage(configuration);
+var containerBuilder = new ContainerBuilder();
+containerBuilder.RegisterPackage(new ApplicationPackage(settings));
+var container = containerBuilder.Build();
 
 var user = new User();
 var notificationServices = container.GetAllInstances<INotificationService>();
