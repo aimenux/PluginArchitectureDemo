@@ -18,4 +18,4 @@ Using various ways to illustrate plugin architecture
 > :bulb: Plugins are copied on `plugins` folder on post build events and loaded at startup by the application.
 >
 
-**`Tools`** : vs22, net 6.0, autofac, simple-injector, scrutor
+**`Tools`** : vs22, net 6.0, autofac, simple-injector, scrutor, fluent-validation
